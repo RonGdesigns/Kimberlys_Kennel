@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fbf7f0;
+  --foreground: #4a3526;
+  /* Web-safe stacks chosen to read warm + editorial without a build-time font fetch.
+     Swap for next/font (e.g. Fraunces + Nunito Sans) once final brand type is chosen in discovery. */
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-bark px-7 py-3 text-sm font-semibold uppercase tracking-wide text-cream transition hover:bg-cocoa focus:outline-none focus:ring-2 focus:ring-caramel focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-bark px-7 py-3 text-sm font-semibold uppercase tracking-wide text-bark transition hover:bg-bark hover:text-cream;
+  }
+
+  .section {
+    @apply py-16 sm:py-24;
+  }
+
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-[0.2em] text-caramel;
+  }
+
+  .heading-1 {
+    @apply font-serif text-4xl leading-tight text-cocoa sm:text-5xl md:text-6xl;
+  }
+
+  .heading-2 {
+    @apply font-serif text-3xl leading-tight text-cocoa sm:text-4xl;
+  }
+
+  .prose-warm {
+    @apply text-base leading-relaxed text-bark/90;
+  }
+}
