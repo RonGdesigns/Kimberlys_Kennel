@@ -14,7 +14,13 @@ import { Puppies } from "./collections/Puppies";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-const databaseUri = process.env.DATABASE_URI || "file:./kennel.db";
+// Accept the common Postgres env var names that Vercel/Neon inject automatically,
+// falling back to local SQLite for development.
+const databaseUri =
+  process.env.DATABASE_URI ||
+  process.env.POSTGRES_URL ||
+  process.env.DATABASE_URL ||
+  "file:./kennel.db";
 const usePostgres = /^postg(res|resql):\/\//.test(databaseUri);
 
 // Database: Postgres in production (e.g. Neon on Vercel), SQLite for local dev.
