@@ -29,9 +29,10 @@ const db = usePostgres
   ? // `prodMigrations` runs the committed migrations automatically on the first
     // production connect, so the schema is created on deploy without a separate
     // migration step. Locally (dev) Payload still auto-pushes the schema.
+    // NOTE: no `migrationDir` here — that path lives in the read-only serverless
+    // bundle and Payload would try to mkdir it. Migrations run from the array.
     postgresAdapter({
       pool: { connectionString: databaseUri },
-      migrationDir: path.resolve(dirname, "migrations"),
       prodMigrations: migrations,
     })
   : sqliteAdapter({ client: { url: databaseUri } });
