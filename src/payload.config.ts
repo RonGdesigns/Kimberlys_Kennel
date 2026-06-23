@@ -10,6 +10,7 @@ import sharp from "sharp";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Puppies } from "./collections/Puppies";
+import { migrations } from "./migrations";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -25,10 +26,14 @@ const usePostgres = /^postg(res|resql):\/\//.test(databaseUri);
 
 // Database: Postgres in production (e.g. Neon on Vercel), SQLite for local dev.
 const db = usePostgres
-  ? // `push: true` auto-syncs the schema on connect, so no separate migration
-    // step is needed to deploy. For a hardened production setup, switch to
-    // committed migrations (payload migrate) and remove push.
-    postgresAdapter({ pool: { connectionString: databaseUri }, push: true })
+  ? // `prodMigrations` runs the committed migrations automatically on the first
+    // production connect, so the schema is created on deploy without a separate
+    // migration step. Locally (dev) Payload still auto-pushes the schema.
+    postgresAdapter({
+      pool: { connectionString: databaseUri },
+      migrationDir: path.resolve(dirname, "migrations"),
+      prodMigrations: migrations,
+    })
   : sqliteAdapter({ client: { url: databaseUri } });
 
 // Photo storage: Vercel Blob when a token is present (serverless hosting),
