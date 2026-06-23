@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import PuppyCard from "@/components/PuppyCard";
-import { puppies } from "@/lib/puppies";
+import { getPuppies } from "@/lib/data";
 import { values, adoptionSteps } from "@/lib/content";
 import { site } from "@/lib/site";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const puppies = await getPuppies();
   const featured = puppies.filter((p) => p.status === "available").slice(0, 3);
 
   return (

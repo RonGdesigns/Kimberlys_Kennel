@@ -1,12 +1,15 @@
 import PuppyBrowser from "@/components/PuppyBrowser";
-import { puppies } from "@/lib/puppies";
+import { getPuppies } from "@/lib/data";
 
 export const metadata = {
   title: "Available Puppies",
   description: "Browse labradoodle puppies currently available for adoption.",
 };
 
-export default function PuppiesPage() {
+export const dynamic = "force-dynamic";
+
+export default async function PuppiesPage() {
+  const puppies = await getPuppies();
   return (
     <>
       <section className="bg-sand">

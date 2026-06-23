@@ -26,3 +26,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# payload / database
+/kennel.db
+/kennel.db-*
+*.sqlite
+*.sqlite-journal
+
+# uploaded media (keep the folder, not the uploads)
+/public/media/*
+!/public/media/.gitkeep

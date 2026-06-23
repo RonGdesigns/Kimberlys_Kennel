@@ -2,15 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import InquiryForm from "@/components/InquiryForm";
-import { getPuppy, puppies, statusLabels } from "@/lib/puppies";
+import { statusLabels } from "@/lib/puppies";
+import { getPuppyBySlug } from "@/lib/data";
 
-export function generateStaticParams() {
-  return puppies.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const puppy = getPuppy(slug);
+  const puppy = await getPuppyBySlug(slug);
   if (!puppy) return { title: "Puppy not found" };
   return {
     title: `${puppy.name} — ${puppy.color} ${puppy.size} Labradoodle`,
@@ -28,7 +27,7 @@ function formatDate(iso: string) {
 
 export default async function PuppyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const puppy = getPuppy(slug);
+  const puppy = await getPuppyBySlug(slug);
   if (!puppy) notFound();
 
   const canReserve = puppy.status === "available" || puppy.status === "upcoming";
