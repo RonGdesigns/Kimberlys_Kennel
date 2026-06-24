@@ -11,6 +11,7 @@ import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Puppies } from "./collections/Puppies";
 import { migrations } from "./migrations";
+import { getBlobToken } from "./lib/blob";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -39,7 +40,7 @@ const db = usePostgres
 
 // Photo storage: Vercel Blob when a token is present (serverless hosting),
 // otherwise local disk under /public/media for local dev.
-const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+const blobToken = getBlobToken();
 const plugins = blobToken
   ? [
       vercelBlobStorage({

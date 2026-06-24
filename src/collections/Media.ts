@@ -1,6 +1,7 @@
 import type { CollectionConfig } from "payload";
 import path from "path";
 import { fileURLToPath } from "url";
+import { getBlobToken } from "../lib/blob";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -9,7 +10,7 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 // (no token) we keep files on disk under /public/media. As a safety net, if we
 // ever fall back to local storage in production, use /tmp (the only writable
 // path on Vercel) so uploads can't crash with mkdir errors.
-const useBlob = !!process.env.BLOB_READ_WRITE_TOKEN;
+const useBlob = !!getBlobToken();
 const isProd = process.env.NODE_ENV === "production";
 const localStaticDir = isProd ? "/tmp/media" : path.resolve(dirname, "../../public/media");
 
