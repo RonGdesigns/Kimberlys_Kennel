@@ -40,7 +40,7 @@ export default function PuppyCard({ puppy }: { puppy: Puppy }) {
         <p className="prose-warm mt-3 line-clamp-2 flex-1 text-sm">{puppy.description}</p>
         <div className="mt-5 flex items-center justify-between">
           <span className="text-sm font-semibold text-bark">
-            {puppy.status === "available" ? `From $${puppy.price.toLocaleString()}` : statusLabels[puppy.status]}
+            {puppy.status === "available" ? `From $${puppy.price.toLocaleString("en-US")}` : statusLabels[puppy.status]}
           </span>
           <span className="text-sm font-semibold text-caramel transition group-hover:translate-x-1">
             View →

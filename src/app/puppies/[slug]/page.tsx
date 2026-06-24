@@ -18,10 +18,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 function formatDate(iso: string) {
+  if (!iso) return "";
+  // Fixed locale + UTC so the server and client render identical text
+  // (otherwise timezone/locale differences cause a hydration mismatch).
   return new Date(iso).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -84,7 +88,7 @@ export default async function PuppyDetailPage({ params }: { params: Promise<{ sl
               {canReserve && (
                 <div>
                   <dt className="font-semibold text-bark">Adoption</dt>
-                  <dd className="text-cocoa">From ${puppy.price.toLocaleString()}</dd>
+                  <dd className="text-cocoa">From ${puppy.price.toLocaleString("en-US")}</dd>
                 </div>
               )}
             </dl>
